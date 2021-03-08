@@ -1,0 +1,42 @@
+version: '2.1'
+
+services:
+  # mariadb
+  # root:mypassword
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.5'
+    ports:
+      - '3306:3306'
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
+    environment:
+      # 設定連線帳號密碼
+      - MARIADB_ROOT_PASSWORD=mypassword
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+  # postgresql
+  # postgres:mypassword
+  postgresql:
+    image: 'docker.io/bitnami/postgresql:11'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+      # 設定連線帳號密碼
+    environment:
+      - POSTGRESQL_PASSWORD=mypassword
+  ## adminer GUI
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9080:8080
+
+volumes:
+  mariadb_data:
+    driver: local
+  postgresql_data:
+    driver: local
