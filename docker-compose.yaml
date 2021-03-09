@@ -34,6 +34,15 @@ services:
     restart: always
     ports:
       - 9080:8080
+  ## swagger
+  swaggereditor:
+    image: swaggerapi/swagger-editor
+    ports:
+      - 9081:8080
+    volumes:
+      - ./swagger:/tmp
+    environment:
+      - SWAGGER_FILE=/tmp/example.yaml
 
 volumes:
   mariadb_data:
